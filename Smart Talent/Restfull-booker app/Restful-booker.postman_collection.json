@@ -1,0 +1,698 @@
+{
+	"info": {
+		"_postman_id": "c3d0b1c3-3b24-4e78-81b8-2c83a5a9d52a",
+		"name": "Restful-booker",
+		"description": "# Restful Booker\n\nEsta API proporciona funcionalidades para gestionar reservas en un hotel utilizando el estándar REST.\n\n## Endpoints Disponibles\n\n- **Crear una reserva**\n    - `POST /booking`\n    - Crea una nueva reserva en el hotel.\n- **Obtener información de una reserva**\n    - `GET /booking/{booking_id}`\n    - Obtiene detalles de una reserva específica por su ID.\n- **Actualizar una reserva**\n    - `PUT /booking/{booking_id}`\n    - Actualiza los detalles de una reserva existente.\n- **Eliminar una reserva**\n    - `DELETE /booking/{booking_id}`\n    - Elimina una reserva existente por su ID.\n\n## Autenticación\n\nTodas las solicitudes requieren autenticación mediante Basic Auth usando Username y Password.\n\n## Formato de Fechas\n\nLos formatos de fechas deben estar en el formato \"YYYY-MM-DD\".\n\n## Casos de Prueba\n\n- **Crear una reserva:** Ejemplo de solicitud y respuesta para crear una reserva en el hotel.\n- **Obtener información de una reserva:** Ejemplo de solicitud y respuesta para obtener detalles de una reserva.\n- **Actualizar una reserva:** Ejemplo de solicitud y respuesta para actualizar una reserva existente.\n- **Eliminar una reserva:** Ejemplo de solicitud y respuesta para eliminar una reserva existente.",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "26174094",
+		"_collection_link": "https://warped-sunset-204259.postman.co/workspace/Api-test~3381c0f4-7fcb-4a1f-8340-7998a48bd6e6/collection/26174094-c3d0b1c3-3b24-4e78-81b8-2c83a5a9d52a?action=share&source=collection_link&creator=26174094"
+	},
+	"item": [
+		{
+			"name": "Valid Test suite",
+			"item": [
+				{
+					"name": "Ping",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Response time is less than 200ms\", function () {\r",
+									"    pm.expect(pm.response.responseTime).to.be.below(200);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{dom}}ping",
+							"host": [
+								"{{dom}}ping"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Booking\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jim\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking",
+							"host": [
+								"{{dom}}booking"
+							]
+						},
+						"description": "Crea una nueva reserva en el hotel.\n\n#### Método\n\n`POST /booking`\n\n#### Parámetros de Solicitud\n\n- `firstname` (string, obligatorio): Nombre del huésped.\n- `lastname` (string, obligatorio): Apellido del huésped.\n- `totalprice` (number, obligatorio): Precio total de la reserva.\n- `depositpaid` (boolean, obligatorio): Indica si se pagó un depósito.\n- `bookingdates` (object, obligatorio):\n    - `checkin` (string, obligatorio): Fecha de entrada en formato 'YYYY-MM-DD'.\n    - `checkout` (string, obligatorio): Fecha de salida en formato 'YYYY-MM-DD'.\n- `additionalneeds` (string, opcional): Requisitos adicionales."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get Booking\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must be valid and have a body\", function () {\r",
+									"     pm.response.to.be.ok;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/211",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								"211"
+							]
+						},
+						"description": "Obtiene detalles de una reserva específica por su ID.\n\n#### Método\n\n`GET /booking/{booking_id}`\n\n#### Parámetros de Solicitud\n\n- `booking_id` (number, path, obligatorio): ID de la reserva."
+					},
+					"response": []
+				},
+				{
+					"name": "Update booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update Booking\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must be valid and have a body\", function () {\r",
+									"     pm.response.to.be.ok;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Fernando\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-02\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/:id",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "110"
+								}
+							]
+						},
+						"description": "Actualizar los datos de reserva."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Booking was deleted\", function () {\r",
+									"    pm.response.to.have.status(201);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json",
+								"type": "text",
+								"disabled": true
+							},
+							{
+								"key": "Authorization",
+								"value": "3b3e829f41f1020",
+								"type": "text",
+								"disabled": true
+							}
+						],
+						"url": {
+							"raw": "{{dom}}112",
+							"host": [
+								"{{dom}}112"
+							]
+						},
+						"description": "Elimina una reserva existente por su ID."
+					},
+					"response": []
+				},
+				{
+					"name": "Partial Update",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Status code is 200\", function () {\r",
+									"    pm.response.to.have.status(200);\r",
+									"});\r",
+									"\r",
+									"pm.test(\"Response must be valid and have a body\", function () {\r",
+									"     pm.response.to.be.ok;\r",
+									"     pm.response.to.be.withBody;\r",
+									"     pm.response.to.be.json;\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PATCH",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Justin\",\r\n    \"lastname\" : \"Gonzalez\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/1",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "## Actualizar parcialmente los datos de una reserva\n\nActualizar detalles de una reserva específica usando su ID.\n\n#### Método\n\n`PATCH /booking/{booking_id}`\n\n#### Parámetros de Solicitud\n\n- `booking_id` (number, path, obligatorio): ID de la reserva."
+					},
+					"response": []
+				}
+			],
+			"description": "Esta carpeta contiene los casos de prueba para las solicitudes:\n\n1. Create Booking\n    \n2. Get Booking\n    \n3. Update Booking\n    \n4. Delete Booking\n    \n5. Partial Update."
+		},
+		{
+			"name": "Test Suite",
+			"item": [
+				{
+					"name": "Create Booking without Names",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Booking without name \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"totalprice\" : 100,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2018-01-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking",
+							"host": [
+								"{{dom}}booking"
+							]
+						},
+						"description": "## Crear una Reserva sin campos obligatorios\n\n**Descripción:**\n\nIntenta crear una reserva sin proporcionar nombres del huesped.\n\n**Pasos:**\n\n1. Realiza una solicitud de creación de reserva sin incluir algunos campos obligatorios en el cuerpo de la solicitud.\n    \n\n**Resultado esperado:**\n\n- La API debe responder con un código de estado 400 (Bad Request).\n- El cuerpo de la respuesta debe contener un mensaje indicando los campos obligatorios que faltan.\n    \n\n---"
+					},
+					"response": []
+				},
+				{
+					"name": "Create Booking with Invalid Date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create Booking with invalid dates \", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "POST",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Jesus\",\r\n    \"lastname\" : \"Martins\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"02-2018-01\",\r\n        \"checkout\" : \"2019-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking",
+							"host": [
+								"{{dom}}booking"
+							]
+						},
+						"description": "Intenta crear una reserva con fechas en un formato incorrecto.\n\n**Pasos:**\n\n1. Realiza una solicitud de creación de reserva con fechas en un formato incorrecto.\n    \n\n**Resultado esperado:**\n\n- La API debe responder con un código de estado 400 (Bad Request).\n    \n- El cuerpo de la respuesta debe contener un mensaje indicando que el formato de las fechas es incorrecto.\n    \n\n  \n\n---\n\n#### Paso 1: Realizar la Solicitud"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Invalid Booking Date",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Update Booking with invalid date\", function () {\r",
+									"    pm.response.to.have.status(400);\r",
+									"});\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "{\r\n    \"firstname\" : \"Fernando\",\r\n    \"lastname\" : \"Brown\",\r\n    \"totalprice\" : 111,\r\n    \"depositpaid\" : true,\r\n    \"bookingdates\" : {\r\n        \"checkin\" : \"2019-01-02\",\r\n        \"checkout\" : \"2018-01-01\"\r\n    },\r\n    \"additionalneeds\" : \"Breakfast\"\r\n}",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/:id",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": ""
+								}
+							]
+						},
+						"description": "## Crear una Reserva con Formato de Fechas Incorrecto\n\n**Descripción:**  \nIntenta crear una reserva con fechas en un formato incorrecto.\n\n**Resultado Esperado:**\n\n- La API debe responder con un código de estado 400 (Bad Request).\n    \n- El cuerpo de la respuesta debe contener un mensaje indicando que el formato de las fechas es incorrecto."
+					},
+					"response": []
+				},
+				{
+					"name": "Get Booking without Auth",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Create booking without authentication\", function () {\r",
+									"    pm.response.to.have.status(401);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"protocolProfileBehavior": {
+						"disableBodyPruning": true
+					},
+					"request": {
+						"auth": {
+							"type": "noauth"
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/1",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								"1"
+							]
+						},
+						"description": "## Intentar Acceso sin Autenticación\n\n**Descripción:**  \nIntenta realizar una solicitud sin proporcionar un token de autenticación.\n\n**Pasos:**\n\n1. Realiza una solicitud a cualquier endpoint sin incluir un token de autenticación en el encabezado.\n    \n\n**Resultado esperado:**\n\n- La API debe responder con un código de estado 403 (Forbidden).\n- El cuerpo de la respuesta debe contener un mensaje indicando que la autenticación es necesaria."
+					},
+					"response": []
+				},
+				{
+					"name": "Get non-existent booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Get non-existent reserve\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});\r",
+									"\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"auth": {
+							"type": "basic",
+							"basic": [
+								{
+									"key": "password",
+									"value": "password123",
+									"type": "string"
+								},
+								{
+									"key": "username",
+									"value": "admin",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"body": {
+							"mode": "raw",
+							"raw": "",
+							"options": {
+								"raw": {
+									"language": "json"
+								}
+							}
+						},
+						"url": {
+							"raw": "{{dom}}booking/9999",
+							"host": [
+								"{{dom}}booking"
+							],
+							"path": [
+								"9999"
+							]
+						},
+						"description": "## Obtener una Reserva Inexistente\n\n**Descripción:**  \nIntenta obtener información de una reserva que no existe.\n\n**Pasos:**\n\n1. Realiza una solicitud para obtener información de una reserva con un ID que no existe.  \n    \n\n**Resultado Esperado:**\n\n- La API debe responder con un código de estado 404 (Not Found).\n    \n- El cuerpo de la respuesta debe contener un mensaje indicando que la reserva no se encuentra."
+					},
+					"response": []
+				},
+				{
+					"name": "Delete non-existent booking",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"pm.test(\"Delete non-existent booking\", function () {\r",
+									"    pm.response.to.have.status(404);\r",
+									"});"
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{dom}}101",
+							"host": [
+								"{{dom}}101"
+							]
+						},
+						"description": "## Eliminar una Reserva Inexistente\n\n**Descripción:**  \nIntenta eliminar una reserva que no existe.\n\n**Pasos:**\n\n1. Realiza una solicitud para eliminar una reserva con un ID que no existe.\n    \n\n**Resultado Esperado:**\n\n- La API debe responder con un código de estado 404 (Not Found).\n    \n- El cuerpo de la respuesta debe contener un mensaje indicando que la reserva no se encuentra."
+					},
+					"response": []
+				}
+			],
+			"description": "Esta carpeta contiene los casos de prueba para las solicitudes:\n\n1. Create Booking without Names\n    \n2. Create Booking with Invalid Date\n    \n3. Get Booking without Auth\n    \n4. Get Non-Existent Booking\n    \n5. Update Booking\n    \n6. Delete Non-Existent Booking"
+		}
+	],
+	"auth": {
+		"type": "basic",
+		"basic": [
+			{
+				"key": "username",
+				"value": "",
+				"type": "string"
+			},
+			{
+				"key": "password",
+				"value": "",
+				"type": "string"
+			}
+		]
+	},
+	"event": [
+		{
+			"listen": "prerequest",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		},
+		{
+			"listen": "test",
+			"script": {
+				"type": "text/javascript",
+				"exec": [
+					""
+				]
+			}
+		}
+	],
+	"variable": [
+		{
+			"key": "pass",
+			"value": "",
+			"type": "string"
+		},
+		{
+			"key": "user",
+			"value": "",
+			"type": "string"
+		}
+	]
+}
